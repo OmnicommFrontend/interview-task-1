@@ -1,38 +1,34 @@
-import { ApiMixinFactory } from './mixins/apiMixin'
-var tableMixin = require('./mixins/tableMixin').default
-var paginationMixin = require('./mixins/paginationMixin')
-var React = require('react')
-var createReactClass = require('create-react-class')
-var Pagination = require('./Pagination').default
-var $ = require('jquery')
+import React from 'react';
+import createReactClass from 'create-react-class';
+import $ from 'jquery';
+import ApiMixinFactory from './mixins/apiMixin';
+import tableMixin from './mixins/tableMixin';
+import Pagination from './Pagination';
 
-const apiMixin =  ApiMixinFactory().getApiMixin($.ajax)
-var App = createReactClass({
-    mixins: [
-        tableMixin,
-        paginationMixin,
-        apiMixin
-    ],
-    render: function () {
-        var self = this
-            var start = (this.state.itemsPerPage * (this.state.activePage - 1))
-            var end = start * this.state.itemsPerPage
-            var universities = this.state.universities.slice(start, start * this.state.itemsPerPage)
-        var table = self.renderTable(universities)
+const apiMixin = ApiMixinFactory().getApiMixin($.ajax);
+const App = createReactClass({
+  mixins: [
+    tableMixin,
+    apiMixin,
+  ],
+  render() {
+    const start = this.state.itemsPerPage * (this.state.activePage - 1);
+    const end = start + this.state.itemsPerPage;
+    const universities = this.state.universities.slice(start, end);
 
-            return (<div>
-                <label htmlFor="#search">Поиск</label>
-                <br/>
-                <input id="search" onChange={this.handleSearchChange} type="string" value={this.state.value}/>
-                <div>
-                    {table}
-                </div>
-                <Pagination itemsPerPage={10}
-                            totalItems={this.state.universities.length}
-                            onPageChange={() =>self.handleClick()}/>
-                <div>{this.state.color}</div>
-            </div>)
-        }
-})
+    return (<div>
+      <label htmlFor="#search">Поиск</label>
+      <br />
+      <input id="search" onChange={this.handleSearchChange} type="string" value={this.state.value} />
+      <div>
+        {this.renderTable(universities)}
+      </div>
+      <Pagination itemsPerPage={10}
+        totalItems={this.state.universities.length}
+        onPageChange={(page) => this.handleClick(page)} />
+      <div>{this.state.color}</div>
+    </div>);
+  },
+});
 
-export {App}
+export default App;

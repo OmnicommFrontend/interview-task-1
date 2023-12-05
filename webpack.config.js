@@ -1,18 +1,18 @@
-const path = require("path");
+const path = require('path');
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
     output: {
-        path: path.join(__dirname, "/dist"),
-        filename: "bundle.js",
+        path: path.join(__dirname, '/dist'),
+        filename: 'bundle.js',
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: "src/index.html",
+            template: 'src/index.html',
         }),
     ],
     devServer: {
-        port: 3030, // you can change the port
+        port: 4200, // you can change the port
         hot: true,
     },
     module: {
@@ -21,7 +21,7 @@ module.exports = {
                 test: /\.(js|jsx)$/, // .js and .jsx files
                 exclude: /node_modules/, // excluding the node_modules folder
                 use: {
-                    loader: "babel-loader",
+                    loader: 'babel-loader',
                 },
             }
         ],
